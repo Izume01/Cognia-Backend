@@ -2,6 +2,8 @@ import express from "express";
 import dotenv from "dotenv";
 import path from "path";
 import authRoutes from './routes/route';
+import contentRoutes from './routes/contentRoute';
+
 dotenv.config({
   path: path.resolve(__dirname, "../.env"),
 });
@@ -18,6 +20,7 @@ app.get("/", (req, res) => {
 });
 
 app.use("/api/v1/auth", authRoutes);
+app.use("/api/v1/content", contentRoutes);
 
 app.listen(PORT, () => {
   console.log(`Server is running on http://localhost:${PORT}`);
