@@ -9,7 +9,7 @@ export const signup = async (req: Request , res : Response) => {
     try {
 
         if (!name || !email || !password) {
-            return res.status(400).json({
+            res.status(400).json({
                 message : "All fields are required"
             })
         }
@@ -25,13 +25,13 @@ export const signup = async (req: Request , res : Response) => {
         })
 
         if(existingUser) {
-            return res.status(409).json({
+            res.status(409).json({
                 message : "Email already in use"
             })
         }
 
         if (emailValidation !== true) {
-            return res.status(400).json({
+            res.status(400).json({
                 message : emailValidation
             })
         }
@@ -39,7 +39,7 @@ export const signup = async (req: Request , res : Response) => {
         const passwordValidation = passwordSchema(password);
 
         if (passwordValidation !== true) {
-            return res.status(400).json({
+            res.status(400).json({
                 message : passwordValidation
             })
         }
@@ -85,13 +85,13 @@ export const login = async (req: Request , res : Response) => {
         const emailValidation = emailSchema(email);
 
         if (emailValidation !== true) {
-            return res.status(400).json({
+            res.status(400).json({
                 message : emailValidation
             })
         }
 
         if (!email || !password) {
-            return res.status(400).json({
+            res.status(400).json({
                 message : "All fields are required"
             })
         }
@@ -99,7 +99,7 @@ export const login = async (req: Request , res : Response) => {
         const passwordValidation = passwordSchema(password);
 
         if (passwordValidation !== true) {
-            return res.status(400).json({
+            res.status(400).json({
                 message : passwordValidation
             })
         }
@@ -110,18 +110,22 @@ export const login = async (req: Request , res : Response) => {
             }
         })
 
+        // compare password with hashed password
 
         if(!findUser || findUser.password === null) {
-            return res.status(404).json({
-                message : "User not found or password is null"
+            res.status(404).json({
+                message : "User not found "
             })
+
+            return;
         }
         
         const isMatch = await bcrypt.compare(password, findUser.password);
 
+        // if password is not matched
 
         if(!isMatch) {
-            return res.status(401).json({
+            res.status(401).json({
                 message : "Invalid credentials"
             })
         }
