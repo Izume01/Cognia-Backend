@@ -1,15 +1,58 @@
 import prisma from "../database/db.config";
 import { Request, Response } from "express";
+import { passwordSchema , emailSchema } from "../Schema/validation";
+import bcrypt from "bcrypt";
 
 export const signup = async (req: Request , res : Response) => {
     const {name , email , password} = req.body;
 
     try {
+
+        if (!name || !email || !password) {
+            return res.status(400).json({
+                message : "All fields are required"
+            })
+        }
+        
+        const emailValidation = emailSchema(email);
+
+        // Check if email is already in use
+
+        const existingUser = await prisma.user.findUnique({
+            where : {
+                email
+            }
+        })
+
+        if(existingUser) {
+            return res.status(409).json({
+                message : "Email already in use"
+            })
+        }
+
+        if (emailValidation !== true) {
+            return res.status(400).json({
+                message : emailValidation
+            })
+        }
+
+        const passwordValidation = passwordSchema(password);
+
+        if (passwordValidation !== true) {
+            return res.status(400).json({
+                message : passwordValidation
+            })
+        }
+
+        // Hash the password before saving to the database
+        const hashedPassword = await bcrypt.hash(password, 10);
+
+
         const newUser = await prisma.user.create({
             data : {
                 name,
                 email,
-                password
+                password : hashedPassword
             }
         })
 
@@ -38,19 +81,46 @@ export const login = async (req: Request , res : Response) => {
     const {email , password} = req.body;
 
     try {
+
+        const emailValidation = emailSchema(email);
+
+        if (emailValidation !== true) {
+            return res.status(400).json({
+                message : emailValidation
+            })
+        }
+
+        if (!email || !password) {
+            return res.status(400).json({
+                message : "All fields are required"
+            })
+        }
+
+        const passwordValidation = passwordSchema(password);
+
+        if (passwordValidation !== true) {
+            return res.status(400).json({
+                message : passwordValidation
+            })
+        }
+
         const findUser = await prisma.user.findUnique({
             where : {
                 email
             }
         })
 
-        if(!findUser) {
+
+        if(!findUser || findUser.password === null) {
             return res.status(404).json({
-                message : "User not found"
+                message : "User not found or password is null"
             })
         }
+        
+        const isMatch = await bcrypt.compare(password, findUser.password);
 
-        if(findUser.password !== password) {
+
+        if(!isMatch) {
             return res.status(401).json({
                 message : "Invalid credentials"
             })
