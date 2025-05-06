@@ -38,14 +38,17 @@ model Content {
   user      User        @relation(fields: [userId], references: [id])
   userId    Int
   tags      Tag[]       @relation("ContentTag")
+  link      Link?       @relation("ContentLink", fields: [linkId], references: [id])
+  linkId    String?     @unique
   createdAt DateTime    @default(now())
 }
 
 model Link {
-  id     String @id @default(uuid())
-  hash   String @unique
-  userId Int
-  user   User   @relation(fields: [userId], references: [id])
+  id      String   @id @default(uuid())
+  hash    String   @unique
+  userId  Int
+  user    User     @relation(fields: [userId], references: [id])
+  content Content? @relation("ContentLink")
 }
 
 model Tag {

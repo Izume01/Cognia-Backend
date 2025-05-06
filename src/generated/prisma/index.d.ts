@@ -2421,6 +2421,7 @@ export namespace Prisma {
     title: string | null
     type: $Enums.ContentType | null
     userId: number | null
+    linkId: string | null
     createdAt: Date | null
   }
 
@@ -2429,6 +2430,7 @@ export namespace Prisma {
     title: string | null
     type: $Enums.ContentType | null
     userId: number | null
+    linkId: string | null
     createdAt: Date | null
   }
 
@@ -2437,6 +2439,7 @@ export namespace Prisma {
     title: number
     type: number
     userId: number
+    linkId: number
     createdAt: number
     _all: number
   }
@@ -2457,6 +2460,7 @@ export namespace Prisma {
     title?: true
     type?: true
     userId?: true
+    linkId?: true
     createdAt?: true
   }
 
@@ -2465,6 +2469,7 @@ export namespace Prisma {
     title?: true
     type?: true
     userId?: true
+    linkId?: true
     createdAt?: true
   }
 
@@ -2473,6 +2478,7 @@ export namespace Prisma {
     title?: true
     type?: true
     userId?: true
+    linkId?: true
     createdAt?: true
     _all?: true
   }
@@ -2568,6 +2574,7 @@ export namespace Prisma {
     title: string
     type: $Enums.ContentType
     userId: number
+    linkId: string | null
     createdAt: Date
     _count: ContentCountAggregateOutputType | null
     _avg: ContentAvgAggregateOutputType | null
@@ -2595,9 +2602,11 @@ export namespace Prisma {
     title?: boolean
     type?: boolean
     userId?: boolean
+    linkId?: boolean
     createdAt?: boolean
     user?: boolean | UserDefaultArgs<ExtArgs>
     tags?: boolean | Content$tagsArgs<ExtArgs>
+    link?: boolean | Content$linkArgs<ExtArgs>
     _count?: boolean | ContentCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["content"]>
 
@@ -2606,8 +2615,10 @@ export namespace Prisma {
     title?: boolean
     type?: boolean
     userId?: boolean
+    linkId?: boolean
     createdAt?: boolean
     user?: boolean | UserDefaultArgs<ExtArgs>
+    link?: boolean | Content$linkArgs<ExtArgs>
   }, ExtArgs["result"]["content"]>
 
   export type ContentSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
@@ -2615,8 +2626,10 @@ export namespace Prisma {
     title?: boolean
     type?: boolean
     userId?: boolean
+    linkId?: boolean
     createdAt?: boolean
     user?: boolean | UserDefaultArgs<ExtArgs>
+    link?: boolean | Content$linkArgs<ExtArgs>
   }, ExtArgs["result"]["content"]>
 
   export type ContentSelectScalar = {
@@ -2624,20 +2637,24 @@ export namespace Prisma {
     title?: boolean
     type?: boolean
     userId?: boolean
+    linkId?: boolean
     createdAt?: boolean
   }
 
-  export type ContentOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "title" | "type" | "userId" | "createdAt", ExtArgs["result"]["content"]>
+  export type ContentOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "title" | "type" | "userId" | "linkId" | "createdAt", ExtArgs["result"]["content"]>
   export type ContentInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     user?: boolean | UserDefaultArgs<ExtArgs>
     tags?: boolean | Content$tagsArgs<ExtArgs>
+    link?: boolean | Content$linkArgs<ExtArgs>
     _count?: boolean | ContentCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type ContentIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     user?: boolean | UserDefaultArgs<ExtArgs>
+    link?: boolean | Content$linkArgs<ExtArgs>
   }
   export type ContentIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     user?: boolean | UserDefaultArgs<ExtArgs>
+    link?: boolean | Content$linkArgs<ExtArgs>
   }
 
   export type $ContentPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -2645,12 +2662,14 @@ export namespace Prisma {
     objects: {
       user: Prisma.$UserPayload<ExtArgs>
       tags: Prisma.$TagPayload<ExtArgs>[]
+      link: Prisma.$LinkPayload<ExtArgs> | null
     }
     scalars: $Extensions.GetPayloadResult<{
       id: number
       title: string
       type: $Enums.ContentType
       userId: number
+      linkId: string | null
       createdAt: Date
     }, ExtArgs["result"]["content"]>
     composites: {}
@@ -3048,6 +3067,7 @@ export namespace Prisma {
     readonly [Symbol.toStringTag]: "PrismaPromise"
     user<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     tags<T extends Content$tagsArgs<ExtArgs> = {}>(args?: Subset<T, Content$tagsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TagPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    link<T extends Content$linkArgs<ExtArgs> = {}>(args?: Subset<T, Content$linkArgs<ExtArgs>>): Prisma__LinkClient<$Result.GetResult<Prisma.$LinkPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -3081,6 +3101,7 @@ export namespace Prisma {
     readonly title: FieldRef<"Content", 'String'>
     readonly type: FieldRef<"Content", 'ContentType'>
     readonly userId: FieldRef<"Content", 'Int'>
+    readonly linkId: FieldRef<"Content", 'String'>
     readonly createdAt: FieldRef<"Content", 'DateTime'>
   }
     
@@ -3502,6 +3523,25 @@ export namespace Prisma {
   }
 
   /**
+   * Content.link
+   */
+  export type Content$linkArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Link
+     */
+    select?: LinkSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Link
+     */
+    omit?: LinkOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LinkInclude<ExtArgs> | null
+    where?: LinkWhereInput
+  }
+
+  /**
    * Content without action
    */
   export type ContentDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -3703,6 +3743,7 @@ export namespace Prisma {
     hash?: boolean
     userId?: boolean
     user?: boolean | UserDefaultArgs<ExtArgs>
+    content?: boolean | Link$contentArgs<ExtArgs>
   }, ExtArgs["result"]["link"]>
 
   export type LinkSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
@@ -3728,6 +3769,7 @@ export namespace Prisma {
   export type LinkOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "hash" | "userId", ExtArgs["result"]["link"]>
   export type LinkInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     user?: boolean | UserDefaultArgs<ExtArgs>
+    content?: boolean | Link$contentArgs<ExtArgs>
   }
   export type LinkIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     user?: boolean | UserDefaultArgs<ExtArgs>
@@ -3740,6 +3782,7 @@ export namespace Prisma {
     name: "Link"
     objects: {
       user: Prisma.$UserPayload<ExtArgs>
+      content: Prisma.$ContentPayload<ExtArgs> | null
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -4140,6 +4183,7 @@ export namespace Prisma {
   export interface Prisma__LinkClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
     user<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    content<T extends Link$contentArgs<ExtArgs> = {}>(args?: Subset<T, Link$contentArgs<ExtArgs>>): Prisma__ContentClient<$Result.GetResult<Prisma.$ContentPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -4565,6 +4609,25 @@ export namespace Prisma {
      * Limit how many Links to delete.
      */
     limit?: number
+  }
+
+  /**
+   * Link.content
+   */
+  export type Link$contentArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Content
+     */
+    select?: ContentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Content
+     */
+    omit?: ContentOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ContentInclude<ExtArgs> | null
+    where?: ContentWhereInput
   }
 
   /**
@@ -5681,6 +5744,7 @@ export namespace Prisma {
     title: 'title',
     type: 'type',
     userId: 'userId',
+    linkId: 'linkId',
     createdAt: 'createdAt'
   };
 
@@ -5874,9 +5938,11 @@ export namespace Prisma {
     title?: StringFilter<"Content"> | string
     type?: EnumContentTypeFilter<"Content"> | $Enums.ContentType
     userId?: IntFilter<"Content"> | number
+    linkId?: StringNullableFilter<"Content"> | string | null
     createdAt?: DateTimeFilter<"Content"> | Date | string
     user?: XOR<UserScalarRelationFilter, UserWhereInput>
     tags?: TagListRelationFilter
+    link?: XOR<LinkNullableScalarRelationFilter, LinkWhereInput> | null
   }
 
   export type ContentOrderByWithRelationInput = {
@@ -5884,13 +5950,16 @@ export namespace Prisma {
     title?: SortOrder
     type?: SortOrder
     userId?: SortOrder
+    linkId?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     user?: UserOrderByWithRelationInput
     tags?: TagOrderByRelationAggregateInput
+    link?: LinkOrderByWithRelationInput
   }
 
   export type ContentWhereUniqueInput = Prisma.AtLeast<{
     id?: number
+    linkId?: string
     AND?: ContentWhereInput | ContentWhereInput[]
     OR?: ContentWhereInput[]
     NOT?: ContentWhereInput | ContentWhereInput[]
@@ -5900,13 +5969,15 @@ export namespace Prisma {
     createdAt?: DateTimeFilter<"Content"> | Date | string
     user?: XOR<UserScalarRelationFilter, UserWhereInput>
     tags?: TagListRelationFilter
-  }, "id">
+    link?: XOR<LinkNullableScalarRelationFilter, LinkWhereInput> | null
+  }, "id" | "linkId">
 
   export type ContentOrderByWithAggregationInput = {
     id?: SortOrder
     title?: SortOrder
     type?: SortOrder
     userId?: SortOrder
+    linkId?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     _count?: ContentCountOrderByAggregateInput
     _avg?: ContentAvgOrderByAggregateInput
@@ -5923,6 +5994,7 @@ export namespace Prisma {
     title?: StringWithAggregatesFilter<"Content"> | string
     type?: EnumContentTypeWithAggregatesFilter<"Content"> | $Enums.ContentType
     userId?: IntWithAggregatesFilter<"Content"> | number
+    linkId?: StringNullableWithAggregatesFilter<"Content"> | string | null
     createdAt?: DateTimeWithAggregatesFilter<"Content"> | Date | string
   }
 
@@ -5934,6 +6006,7 @@ export namespace Prisma {
     hash?: StringFilter<"Link"> | string
     userId?: IntFilter<"Link"> | number
     user?: XOR<UserScalarRelationFilter, UserWhereInput>
+    content?: XOR<ContentNullableScalarRelationFilter, ContentWhereInput> | null
   }
 
   export type LinkOrderByWithRelationInput = {
@@ -5941,6 +6014,7 @@ export namespace Prisma {
     hash?: SortOrder
     userId?: SortOrder
     user?: UserOrderByWithRelationInput
+    content?: ContentOrderByWithRelationInput
   }
 
   export type LinkWhereUniqueInput = Prisma.AtLeast<{
@@ -5951,6 +6025,7 @@ export namespace Prisma {
     NOT?: LinkWhereInput | LinkWhereInput[]
     userId?: IntFilter<"Link"> | number
     user?: XOR<UserScalarRelationFilter, UserWhereInput>
+    content?: XOR<ContentNullableScalarRelationFilter, ContentWhereInput> | null
   }, "id" | "hash">
 
   export type LinkOrderByWithAggregationInput = {
@@ -6082,6 +6157,7 @@ export namespace Prisma {
     createdAt?: Date | string
     user: UserCreateNestedOneWithoutContentInput
     tags?: TagCreateNestedManyWithoutContentInput
+    link?: LinkCreateNestedOneWithoutContentInput
   }
 
   export type ContentUncheckedCreateInput = {
@@ -6089,6 +6165,7 @@ export namespace Prisma {
     title: string
     type: $Enums.ContentType
     userId: number
+    linkId?: string | null
     createdAt?: Date | string
     tags?: TagUncheckedCreateNestedManyWithoutContentInput
   }
@@ -6099,6 +6176,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     user?: UserUpdateOneRequiredWithoutContentNestedInput
     tags?: TagUpdateManyWithoutContentNestedInput
+    link?: LinkUpdateOneWithoutContentNestedInput
   }
 
   export type ContentUncheckedUpdateInput = {
@@ -6106,6 +6184,7 @@ export namespace Prisma {
     title?: StringFieldUpdateOperationsInput | string
     type?: EnumContentTypeFieldUpdateOperationsInput | $Enums.ContentType
     userId?: IntFieldUpdateOperationsInput | number
+    linkId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     tags?: TagUncheckedUpdateManyWithoutContentNestedInput
   }
@@ -6115,6 +6194,7 @@ export namespace Prisma {
     title: string
     type: $Enums.ContentType
     userId: number
+    linkId?: string | null
     createdAt?: Date | string
   }
 
@@ -6129,6 +6209,7 @@ export namespace Prisma {
     title?: StringFieldUpdateOperationsInput | string
     type?: EnumContentTypeFieldUpdateOperationsInput | $Enums.ContentType
     userId?: IntFieldUpdateOperationsInput | number
+    linkId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
@@ -6136,24 +6217,28 @@ export namespace Prisma {
     id?: string
     hash: string
     user: UserCreateNestedOneWithoutLinkInput
+    content?: ContentCreateNestedOneWithoutLinkInput
   }
 
   export type LinkUncheckedCreateInput = {
     id?: string
     hash: string
     userId: number
+    content?: ContentUncheckedCreateNestedOneWithoutLinkInput
   }
 
   export type LinkUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
     hash?: StringFieldUpdateOperationsInput | string
     user?: UserUpdateOneRequiredWithoutLinkNestedInput
+    content?: ContentUpdateOneWithoutLinkNestedInput
   }
 
   export type LinkUncheckedUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
     hash?: StringFieldUpdateOperationsInput | string
     userId?: IntFieldUpdateOperationsInput | number
+    content?: ContentUncheckedUpdateOneWithoutLinkNestedInput
   }
 
   export type LinkCreateManyInput = {
@@ -6402,6 +6487,11 @@ export namespace Prisma {
     none?: TagWhereInput
   }
 
+  export type LinkNullableScalarRelationFilter = {
+    is?: LinkWhereInput | null
+    isNot?: LinkWhereInput | null
+  }
+
   export type TagOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
@@ -6411,6 +6501,7 @@ export namespace Prisma {
     title?: SortOrder
     type?: SortOrder
     userId?: SortOrder
+    linkId?: SortOrder
     createdAt?: SortOrder
   }
 
@@ -6424,6 +6515,7 @@ export namespace Prisma {
     title?: SortOrder
     type?: SortOrder
     userId?: SortOrder
+    linkId?: SortOrder
     createdAt?: SortOrder
   }
 
@@ -6432,6 +6524,7 @@ export namespace Prisma {
     title?: SortOrder
     type?: SortOrder
     userId?: SortOrder
+    linkId?: SortOrder
     createdAt?: SortOrder
   }
 
@@ -6448,6 +6541,11 @@ export namespace Prisma {
     _count?: NestedIntFilter<$PrismaModel>
     _min?: NestedEnumContentTypeFilter<$PrismaModel>
     _max?: NestedEnumContentTypeFilter<$PrismaModel>
+  }
+
+  export type ContentNullableScalarRelationFilter = {
+    is?: ContentWhereInput | null
+    isNot?: ContentWhereInput | null
   }
 
   export type LinkCountOrderByAggregateInput = {
@@ -6615,6 +6713,12 @@ export namespace Prisma {
     connect?: TagWhereUniqueInput | TagWhereUniqueInput[]
   }
 
+  export type LinkCreateNestedOneWithoutContentInput = {
+    create?: XOR<LinkCreateWithoutContentInput, LinkUncheckedCreateWithoutContentInput>
+    connectOrCreate?: LinkCreateOrConnectWithoutContentInput
+    connect?: LinkWhereUniqueInput
+  }
+
   export type TagUncheckedCreateNestedManyWithoutContentInput = {
     create?: XOR<TagCreateWithoutContentInput, TagUncheckedCreateWithoutContentInput> | TagCreateWithoutContentInput[] | TagUncheckedCreateWithoutContentInput[]
     connectOrCreate?: TagCreateOrConnectWithoutContentInput | TagCreateOrConnectWithoutContentInput[]
@@ -6646,6 +6750,16 @@ export namespace Prisma {
     deleteMany?: TagScalarWhereInput | TagScalarWhereInput[]
   }
 
+  export type LinkUpdateOneWithoutContentNestedInput = {
+    create?: XOR<LinkCreateWithoutContentInput, LinkUncheckedCreateWithoutContentInput>
+    connectOrCreate?: LinkCreateOrConnectWithoutContentInput
+    upsert?: LinkUpsertWithoutContentInput
+    disconnect?: LinkWhereInput | boolean
+    delete?: LinkWhereInput | boolean
+    connect?: LinkWhereUniqueInput
+    update?: XOR<XOR<LinkUpdateToOneWithWhereWithoutContentInput, LinkUpdateWithoutContentInput>, LinkUncheckedUpdateWithoutContentInput>
+  }
+
   export type TagUncheckedUpdateManyWithoutContentNestedInput = {
     create?: XOR<TagCreateWithoutContentInput, TagUncheckedCreateWithoutContentInput> | TagCreateWithoutContentInput[] | TagUncheckedCreateWithoutContentInput[]
     connectOrCreate?: TagCreateOrConnectWithoutContentInput | TagCreateOrConnectWithoutContentInput[]
@@ -6665,12 +6779,44 @@ export namespace Prisma {
     connect?: UserWhereUniqueInput
   }
 
+  export type ContentCreateNestedOneWithoutLinkInput = {
+    create?: XOR<ContentCreateWithoutLinkInput, ContentUncheckedCreateWithoutLinkInput>
+    connectOrCreate?: ContentCreateOrConnectWithoutLinkInput
+    connect?: ContentWhereUniqueInput
+  }
+
+  export type ContentUncheckedCreateNestedOneWithoutLinkInput = {
+    create?: XOR<ContentCreateWithoutLinkInput, ContentUncheckedCreateWithoutLinkInput>
+    connectOrCreate?: ContentCreateOrConnectWithoutLinkInput
+    connect?: ContentWhereUniqueInput
+  }
+
   export type UserUpdateOneRequiredWithoutLinkNestedInput = {
     create?: XOR<UserCreateWithoutLinkInput, UserUncheckedCreateWithoutLinkInput>
     connectOrCreate?: UserCreateOrConnectWithoutLinkInput
     upsert?: UserUpsertWithoutLinkInput
     connect?: UserWhereUniqueInput
     update?: XOR<XOR<UserUpdateToOneWithWhereWithoutLinkInput, UserUpdateWithoutLinkInput>, UserUncheckedUpdateWithoutLinkInput>
+  }
+
+  export type ContentUpdateOneWithoutLinkNestedInput = {
+    create?: XOR<ContentCreateWithoutLinkInput, ContentUncheckedCreateWithoutLinkInput>
+    connectOrCreate?: ContentCreateOrConnectWithoutLinkInput
+    upsert?: ContentUpsertWithoutLinkInput
+    disconnect?: ContentWhereInput | boolean
+    delete?: ContentWhereInput | boolean
+    connect?: ContentWhereUniqueInput
+    update?: XOR<XOR<ContentUpdateToOneWithWhereWithoutLinkInput, ContentUpdateWithoutLinkInput>, ContentUncheckedUpdateWithoutLinkInput>
+  }
+
+  export type ContentUncheckedUpdateOneWithoutLinkNestedInput = {
+    create?: XOR<ContentCreateWithoutLinkInput, ContentUncheckedCreateWithoutLinkInput>
+    connectOrCreate?: ContentCreateOrConnectWithoutLinkInput
+    upsert?: ContentUpsertWithoutLinkInput
+    disconnect?: ContentWhereInput | boolean
+    delete?: ContentWhereInput | boolean
+    connect?: ContentWhereUniqueInput
+    update?: XOR<XOR<ContentUpdateToOneWithWhereWithoutLinkInput, ContentUpdateWithoutLinkInput>, ContentUncheckedUpdateWithoutLinkInput>
   }
 
   export type ContentCreateNestedManyWithoutTagsInput = {
@@ -6869,12 +7015,14 @@ export namespace Prisma {
     type: $Enums.ContentType
     createdAt?: Date | string
     tags?: TagCreateNestedManyWithoutContentInput
+    link?: LinkCreateNestedOneWithoutContentInput
   }
 
   export type ContentUncheckedCreateWithoutUserInput = {
     id?: number
     title: string
     type: $Enums.ContentType
+    linkId?: string | null
     createdAt?: Date | string
     tags?: TagUncheckedCreateNestedManyWithoutContentInput
   }
@@ -6892,11 +7040,13 @@ export namespace Prisma {
   export type LinkCreateWithoutUserInput = {
     id?: string
     hash: string
+    content?: ContentCreateNestedOneWithoutLinkInput
   }
 
   export type LinkUncheckedCreateWithoutUserInput = {
     id?: string
     hash: string
+    content?: ContentUncheckedCreateNestedOneWithoutLinkInput
   }
 
   export type LinkCreateOrConnectWithoutUserInput = {
@@ -6933,6 +7083,7 @@ export namespace Prisma {
     title?: StringFilter<"Content"> | string
     type?: EnumContentTypeFilter<"Content"> | $Enums.ContentType
     userId?: IntFilter<"Content"> | number
+    linkId?: StringNullableFilter<"Content"> | string | null
     createdAt?: DateTimeFilter<"Content"> | Date | string
   }
 
@@ -6997,6 +7148,23 @@ export namespace Prisma {
     create: XOR<TagCreateWithoutContentInput, TagUncheckedCreateWithoutContentInput>
   }
 
+  export type LinkCreateWithoutContentInput = {
+    id?: string
+    hash: string
+    user: UserCreateNestedOneWithoutLinkInput
+  }
+
+  export type LinkUncheckedCreateWithoutContentInput = {
+    id?: string
+    hash: string
+    userId: number
+  }
+
+  export type LinkCreateOrConnectWithoutContentInput = {
+    where: LinkWhereUniqueInput
+    create: XOR<LinkCreateWithoutContentInput, LinkUncheckedCreateWithoutContentInput>
+  }
+
   export type UserUpsertWithoutContentInput = {
     update: XOR<UserUpdateWithoutContentInput, UserUncheckedUpdateWithoutContentInput>
     create: XOR<UserCreateWithoutContentInput, UserUncheckedCreateWithoutContentInput>
@@ -7049,6 +7217,29 @@ export namespace Prisma {
     title?: StringFilter<"Tag"> | string
   }
 
+  export type LinkUpsertWithoutContentInput = {
+    update: XOR<LinkUpdateWithoutContentInput, LinkUncheckedUpdateWithoutContentInput>
+    create: XOR<LinkCreateWithoutContentInput, LinkUncheckedCreateWithoutContentInput>
+    where?: LinkWhereInput
+  }
+
+  export type LinkUpdateToOneWithWhereWithoutContentInput = {
+    where?: LinkWhereInput
+    data: XOR<LinkUpdateWithoutContentInput, LinkUncheckedUpdateWithoutContentInput>
+  }
+
+  export type LinkUpdateWithoutContentInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    hash?: StringFieldUpdateOperationsInput | string
+    user?: UserUpdateOneRequiredWithoutLinkNestedInput
+  }
+
+  export type LinkUncheckedUpdateWithoutContentInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    hash?: StringFieldUpdateOperationsInput | string
+    userId?: IntFieldUpdateOperationsInput | number
+  }
+
   export type UserCreateWithoutLinkInput = {
     name?: string | null
     email?: string | null
@@ -7069,6 +7260,28 @@ export namespace Prisma {
   export type UserCreateOrConnectWithoutLinkInput = {
     where: UserWhereUniqueInput
     create: XOR<UserCreateWithoutLinkInput, UserUncheckedCreateWithoutLinkInput>
+  }
+
+  export type ContentCreateWithoutLinkInput = {
+    title: string
+    type: $Enums.ContentType
+    createdAt?: Date | string
+    user: UserCreateNestedOneWithoutContentInput
+    tags?: TagCreateNestedManyWithoutContentInput
+  }
+
+  export type ContentUncheckedCreateWithoutLinkInput = {
+    id?: number
+    title: string
+    type: $Enums.ContentType
+    userId: number
+    createdAt?: Date | string
+    tags?: TagUncheckedCreateNestedManyWithoutContentInput
+  }
+
+  export type ContentCreateOrConnectWithoutLinkInput = {
+    where: ContentWhereUniqueInput
+    create: XOR<ContentCreateWithoutLinkInput, ContentUncheckedCreateWithoutLinkInput>
   }
 
   export type UserUpsertWithoutLinkInput = {
@@ -7099,11 +7312,40 @@ export namespace Prisma {
     Content?: ContentUncheckedUpdateManyWithoutUserNestedInput
   }
 
+  export type ContentUpsertWithoutLinkInput = {
+    update: XOR<ContentUpdateWithoutLinkInput, ContentUncheckedUpdateWithoutLinkInput>
+    create: XOR<ContentCreateWithoutLinkInput, ContentUncheckedCreateWithoutLinkInput>
+    where?: ContentWhereInput
+  }
+
+  export type ContentUpdateToOneWithWhereWithoutLinkInput = {
+    where?: ContentWhereInput
+    data: XOR<ContentUpdateWithoutLinkInput, ContentUncheckedUpdateWithoutLinkInput>
+  }
+
+  export type ContentUpdateWithoutLinkInput = {
+    title?: StringFieldUpdateOperationsInput | string
+    type?: EnumContentTypeFieldUpdateOperationsInput | $Enums.ContentType
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    user?: UserUpdateOneRequiredWithoutContentNestedInput
+    tags?: TagUpdateManyWithoutContentNestedInput
+  }
+
+  export type ContentUncheckedUpdateWithoutLinkInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    title?: StringFieldUpdateOperationsInput | string
+    type?: EnumContentTypeFieldUpdateOperationsInput | $Enums.ContentType
+    userId?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    tags?: TagUncheckedUpdateManyWithoutContentNestedInput
+  }
+
   export type ContentCreateWithoutTagsInput = {
     title: string
     type: $Enums.ContentType
     createdAt?: Date | string
     user: UserCreateNestedOneWithoutContentInput
+    link?: LinkCreateNestedOneWithoutContentInput
   }
 
   export type ContentUncheckedCreateWithoutTagsInput = {
@@ -7111,6 +7353,7 @@ export namespace Prisma {
     title: string
     type: $Enums.ContentType
     userId: number
+    linkId?: string | null
     createdAt?: Date | string
   }
 
@@ -7139,6 +7382,7 @@ export namespace Prisma {
     id?: number
     title: string
     type: $Enums.ContentType
+    linkId?: string | null
     createdAt?: Date | string
   }
 
@@ -7152,12 +7396,14 @@ export namespace Prisma {
     type?: EnumContentTypeFieldUpdateOperationsInput | $Enums.ContentType
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     tags?: TagUpdateManyWithoutContentNestedInput
+    link?: LinkUpdateOneWithoutContentNestedInput
   }
 
   export type ContentUncheckedUpdateWithoutUserInput = {
     id?: IntFieldUpdateOperationsInput | number
     title?: StringFieldUpdateOperationsInput | string
     type?: EnumContentTypeFieldUpdateOperationsInput | $Enums.ContentType
+    linkId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     tags?: TagUncheckedUpdateManyWithoutContentNestedInput
   }
@@ -7166,17 +7412,20 @@ export namespace Prisma {
     id?: IntFieldUpdateOperationsInput | number
     title?: StringFieldUpdateOperationsInput | string
     type?: EnumContentTypeFieldUpdateOperationsInput | $Enums.ContentType
+    linkId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type LinkUpdateWithoutUserInput = {
     id?: StringFieldUpdateOperationsInput | string
     hash?: StringFieldUpdateOperationsInput | string
+    content?: ContentUpdateOneWithoutLinkNestedInput
   }
 
   export type LinkUncheckedUpdateWithoutUserInput = {
     id?: StringFieldUpdateOperationsInput | string
     hash?: StringFieldUpdateOperationsInput | string
+    content?: ContentUncheckedUpdateOneWithoutLinkNestedInput
   }
 
   export type LinkUncheckedUpdateManyWithoutUserInput = {
@@ -7203,6 +7452,7 @@ export namespace Prisma {
     type?: EnumContentTypeFieldUpdateOperationsInput | $Enums.ContentType
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     user?: UserUpdateOneRequiredWithoutContentNestedInput
+    link?: LinkUpdateOneWithoutContentNestedInput
   }
 
   export type ContentUncheckedUpdateWithoutTagsInput = {
@@ -7210,6 +7460,7 @@ export namespace Prisma {
     title?: StringFieldUpdateOperationsInput | string
     type?: EnumContentTypeFieldUpdateOperationsInput | $Enums.ContentType
     userId?: IntFieldUpdateOperationsInput | number
+    linkId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
@@ -7218,6 +7469,7 @@ export namespace Prisma {
     title?: StringFieldUpdateOperationsInput | string
     type?: EnumContentTypeFieldUpdateOperationsInput | $Enums.ContentType
     userId?: IntFieldUpdateOperationsInput | number
+    linkId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
