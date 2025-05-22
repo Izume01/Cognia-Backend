@@ -52,8 +52,14 @@ export const signup = async (req: Request , res : Response) => {
                 name,
                 email,
                 password : hashedPassword
+            } , 
+            select : {
+                id: true,
+                name: true,
+                email: true
             }
         })
+
 
         res.status(201).json({
             message : "User created successfully",
@@ -106,7 +112,8 @@ export const login = async (req: Request , res : Response) => {
         const findUser = await prisma.user.findUnique({
             where : {
                 email
-            }
+            }, 
+            
         })
 
         // compare password with hashed password
@@ -131,7 +138,11 @@ export const login = async (req: Request , res : Response) => {
 
         res.status(200).json({
             message : "Login successful",
-            user : findUser
+            user : {
+                id : findUser.id,
+                name : findUser.name,
+                email : findUser.email
+            }
         })
 
     } catch (error) {

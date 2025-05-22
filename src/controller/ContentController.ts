@@ -1,4 +1,5 @@
 import prisma from "../database/db.config";
+import {v4 as uuidv4} from "uuid";
 
 import { Request, Response } from "express";
 
@@ -107,7 +108,93 @@ export const deleteContent = async (req: Request, res: Response) => {
     }
 }
 
+export const shareContent = async (req: Request, res: Response) => {
+  const { id } = req.params;
 
-// What left 
-// Create a shareable link          POST /api/v1/brain/:id/share
-//Fetch another user's shared       GET /api/v1/brain/:shareLink
+  try {
+    // Check if content exists
+    const content = await prisma.content.findUnique({
+      where: { id: Number(id) },
+      include: { user: true }
+    });
+
+    if (!content) {
+      res.status(404).json({ message: "Content not found" });
+      return;
+    }
+
+    // If already has link, return existing one
+    if (content.linkId) {
+      const existingLink = await prisma.link.findUnique({
+        where: { id: content.linkId }
+      });
+
+      res.status(200).json({
+        message: "Already shared",
+        shareLink: `/api/v1/brain/${existingLink?.hash}`,
+      });
+    }
+
+    // Generate a unique hash
+    const hash = uuidv4().split('-')[0];
+
+    // Create the share link
+    const link = await prisma.link.create({
+      data: {
+        hash,
+        userId: content.userId,
+        content: {
+          connect: { id: content.id }
+        }
+      }
+    });
+
+    res.status(201).json({
+      message: "Link created successfully",
+      shareLink: `/api/v1/brain/${link.hash}`,
+    });
+
+  } catch (error) {
+    res.status(500).json({
+      message: "Internal server error",
+      error: error instanceof Error ? error.message : String(error),
+    });
+  }
+};
+
+
+export const fetchSharedContent = async (req: Request, res: Response) => {
+  const { hash } = req.params;
+
+  try {
+    const link = await prisma.link.findUnique({
+      where: { hash: hash },
+      include: {
+        content: {
+          include: {
+            user: true,
+            tags: true,
+          },
+        },
+      },
+    });
+
+    if (!link || !link.content) {
+      res.status(404).json({ message: "Shared content not found" });
+      return;
+    }
+
+    res.status(200).json({
+      message: "Shared content fetched successfully",
+      content: link.content,
+    });
+
+  } catch (error) {
+    res.status(500).json({
+      message: "Internal server error",
+      error: error instanceof Error ? error.message : String(error),
+    });
+  }
+};
+
+

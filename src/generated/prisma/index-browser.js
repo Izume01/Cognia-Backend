@@ -133,6 +133,7 @@ exports.Prisma.ContentScalarFieldEnum = {
   title: 'title',
   type: 'type',
   userId: 'userId',
+  linkId: 'linkId',
   createdAt: 'createdAt'
 };
 
