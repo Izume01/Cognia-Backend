@@ -198,8 +198,3 @@ export const fetchSharedContent = async (req: Request, res: Response) => {
 };
 
 
-// What left
-// Create a shareable link          POST /api/v1/brain/:id/share
-// Fetch another user's shared       GET /api/v1/brain/:shareLink
-// LEARN GENERICS FFS && Revise Schema prisma
-
