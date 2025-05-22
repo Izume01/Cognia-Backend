@@ -1,11 +1,18 @@
 import { Router } from "express";
 
-import { createContent, fetchAllContent } from "../controller/ContentController";
+import { createContent, deleteContent, fetchAllContent, fetchSharedContent, shareContent } from "../controller/ContentController";
 
 const router = Router();
 
-router.post("/content", createContent);
+router.post("/", createContent);
 
-router.get("/content", fetchAllContent);
+router.get("/", fetchAllContent);
+
+router.get("/shared/:hash", fetchSharedContent);
+
+router.delete("/:id", deleteContent);
+
+router.post("/:id/share", shareContent);
+
 
 export default router;
